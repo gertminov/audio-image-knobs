@@ -1,7 +1,7 @@
 import * as Tone from 'tone';
 import { cubicEaseOut } from '$lib/synth/easing';
 
-class DarkBright{
+export class DarkBright {
 	private readonly lowCutFilter: Tone.Filter
 	private readonly highCutFilter: Tone.Filter
 
@@ -11,7 +11,7 @@ class DarkBright{
 
 	private readonly eq: Tone.EQ3
 
-	readonly output:Tone.InputNode
+	readonly output:Tone.InputNode []
 	constructor() {
 
 		this.lowCutFilter = new Tone.Filter(20, 'highpass');
@@ -20,7 +20,7 @@ class DarkBright{
 		this.lowCutFrequency = new Tone.Signal<'number'>(1);
 		this.lowCutFrequency.connect(lowCutScale);
 
-		this.highCutFilter= new Tone.Filter(500, 'lowpass').toDestination();
+		this.highCutFilter= new Tone.Filter(500, 'lowpass')
 		this.highCutFrequency = new Tone.Signal<'number'>(1);
 		const highCutScale = new Tone.ScaleExp(500, 20000, 10);
 		highCutScale.connect(this.highCutFilter.frequency);
@@ -31,8 +31,7 @@ class DarkBright{
 		brightEQScale.connect(this.eq.high)
 		this.lowCutFrequency.connect(brightEQScale)
 
-		this.lowCutFilter.chain(this.highCutFilter, this.eq)
-		this.output = this.lowCutFilter
+		this.output = [this.lowCutFilter, this.highCutFilter, this.eq]
 	}
 
 

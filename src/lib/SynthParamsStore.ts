@@ -25,7 +25,7 @@ export const darkBrightStore = createMemoStore(0.3)
 
 export const lowHighStore = createMemoStore(0)
 
-export const slowFastStore =createMemoStore(120)
+export const slowFastStore =createMemoStore(0.5)
 
 export const centerPeripheryStore =createMemoStore(0)
 
@@ -33,5 +33,8 @@ export const cleanDirtyStore =createMemoStore(0)
 
 export const hardSoftStore =createMemoStore(.4)
 
+export const volumeStore =createMemoStore(0.7)
+
 export const isPlayingStore = writable(false)
+
 
