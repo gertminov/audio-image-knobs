@@ -36,7 +36,7 @@
 		]);
 		dings.forEach((v, k) => k.subscribe(newVal => v(newVal)));
 		isPlayingStore.subscribe(newVal => synth.playPause(newVal));
-		sequenceStore.subscribe(newVal => synth.setSequence(newVal.steps));
+		// sequenceStore.subscribe(newVal => synth.setSequence(newVal.steps));
 	}
 
 	async function startStop() {
