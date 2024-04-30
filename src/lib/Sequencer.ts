@@ -41,6 +41,3 @@ export function nextNote() {
 	return sequence.steps[curIndex]
 }
 
-export function currentNote(){
-
-}

@@ -4,7 +4,7 @@ import type { RecursivePartial } from 'tone/build/esm/core/util/Interface';
 import { cubicEaseIn } from '$lib/synth/easing';
 import { DarkBright } from '$lib/synth/DarkBright';
 import { CenterPeriphery } from '$lib/synth/CenterPeriphery';
-import { sequenceStore } from '$lib/Sequencer';
+import { nextNote } from '$lib/Sequencer';
 
 
 export class SynthEngine {
@@ -15,6 +15,7 @@ export class SynthEngine {
 
 	// private loop: Tone.Loop;
 	private readonly sequence: Tone.Sequence
+	private readonly loop: Tone.Loop
 	private transpose = 0;
 	private isPlaying = false;
 	private readonly darkBright: DarkBright
@@ -58,9 +59,6 @@ export class SynthEngine {
 
 
 		this.volume = new Tone.Volume(0)
-		// const volumeScale = new Tone.Scale(-30, -60, 3);
-		// this.volume = new Tone.Signal(0.5);
-		// this.volume.connect(volume)
 
 		this.synth = new Tone.PolySynth(Tone.FMSynth, this.synthSettings).chain(
 			filter,
@@ -73,26 +71,26 @@ export class SynthEngine {
 
 
 
-		// this.loop = new Tone.Loop((time) => {
-		// 	this.filterEnvelope.triggerAttack(time);
-		// 	this.synth.triggerAttackRelease(this.getNote(),
-		// 		'16n.',
-		// 		time);
-		// }, '8n');
-		this.sequence = new Tone.Sequence((time, note) =>{
-			Tone.Draw.schedule(()=>{
-				sequenceStore.step()
-			}, time)
-			this.filterEnvelope.triggerAttack(time + 0.03);
-			this.synth.triggerAttackRelease(Tone.Midi(note).transpose(this.transpose).toNote(),
+		this.loop = new Tone.Loop((time) => {
+			this.filterEnvelope.triggerAttack(time);
+			this.synth.triggerAttackRelease(this.getNote(),
 				'16n.',
-				time + 0.03);
-		}, ["C3", "G3", "C3", "D3", "E3", "C3", "D3", "E3"]  )
+				time);
+		}, '8n');
+		// this.sequence = new Tone.Sequence((time, note) =>{
+		// 	Tone.Draw.schedule(()=>{
+		// 		sequenceStore.step()
+		// 	}, time)
+		// 	this.filterEnvelope.triggerAttack(time + 0.03);
+		// 	this.synth.triggerAttackRelease(Tone.Midi(note).transpose(this.transpose).toNote(),
+		// 		'16n.',
+		// 		time + 0.03);
+		// }, ["C3", "G3", "C3", "D3", "E3", "C3", "D3", "E3"]  )
 	}
 
 	private getNote() {
-		// const note = nextNote()
-		// return Tone.Midi(note).transpose(this.transpose).toFrequency();
+		const note = nextNote()
+		return Tone.Midi(note).transpose(this.transpose).toNote()
 	}
 
 	setSequence(sequence: string[]) {
@@ -176,8 +174,7 @@ export class SynthEngine {
 	}
 
 	private play() {
-		// this.loop.start(0);
-		this.sequence.start(0)
+		this.loop.start(0);
 		Tone.Transport.start();
 	}
 
