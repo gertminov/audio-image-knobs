@@ -1,3 +1,5 @@
+import { writable } from 'svelte/store';
+
 /**
  * Transform a value between two ranges
  * @param value - Current value
@@ -73,3 +75,5 @@ export const randomColor = (): string => {
 export const safeName = (name: string): string => {
 	return name.replace(/[^a-z0-9_-]/gi, '_').toLowerCase();
 };
+
+export const hideLabelStore = writable(false)

@@ -15,6 +15,7 @@
 	import Knob from '$lib/components/Knob.svelte';
 	import { sequenceStore } from '$lib/Sequencer';
 	import Sequencer from '$lib/components/Sequencer.svelte';
+	import { hideLabelStore } from '$lib/helpers';
 
 	let synth: SynthEngine;
 
@@ -53,6 +54,11 @@
 						<path d="M40 20 L0 0 L0 40 L40 20" fill="white" />
 					</svg>
 				</button>
+			</div>
+			<div class="grid place-content-center">
+				<button class="btn variant-soft-secondary"
+								on:click={()=> {$hideLabelStore = !$hideLabelStore}}
+				>{$hideLabelStore? "Hide Labels": "Show Labels"}</button>
 			</div>
 			<Knob bind:value={$volumeStore} min={0} max={1} precision={2} label="Volume" />
 		</div>

@@ -1,7 +1,8 @@
 <script lang="ts">
 	import type { OnPan } from '../actions/pan';
 	import usePan from '../actions/pan';
-	import { round, scale } from '../helpers';
+	import { hideLabelStore, round, scale } from '../helpers';
+	import Hide from '$lib/components/icons/Hide.svelte';
 
 	export let min: number;
 	export let max: number;
@@ -11,6 +12,10 @@
 	export let precision: number = 0;
 
 	$: rotation = scale(value, [min, max], [0, 270], 0);
+
+	let showLabel = false
+
+	hideLabelStore.subscribe(newVal => {showLabel = newVal})
 
 	const onPan: OnPan = ({ dy }) => {
 		if (dy && dy !== 0) {
@@ -24,10 +29,10 @@
 
 <div class="grid place-content-center">
 	<div
-			 class=" flex flex-col justify-center items-center cursor-ns-resize"
-			 use:usePan={onPan}
+		class=" flex flex-col justify-center items-center cursor-ns-resize"
+		use:usePan={onPan}
 	>
-<!--		<ProgressRadial width="w-14" stroke={100} meter="stroke-primary-500" track="stroke-primary-500/30" value={rotation} />-->
+		<!--		<ProgressRadial width="w-14" stroke={100} meter="stroke-primary-500" track="stroke-primary-500/30" value={rotation} />-->
 		<div class="relative  h-14 aspect-square">
 			<svg
 				style="transform: rotate({-135 + rotation}deg);"
@@ -68,25 +73,31 @@
 				<circle cx="28" cy="5" fill="#000000" r="2" />
 			</svg>
 		</div>
-		{#if label}
-			<div class="pointer-events-none select-none pt-2 text-sm md:text-base">{label}</div>
-		{/if}
+		<div class="h-8">
+			{#if showLabel}
+				<div class="pointer-events-none select-none pt-2 text-sm md:text-base">{label}</div>
+			{:else }
+				<Hide on:click={()=> showLabel = true} />
+			{/if}
+		</div>
 	</div>
 </div>
 
 <style>
-	svg {
-      --color-6: #f6f6f6;
-      --color-dark-shadow: #676767;
-			--color-light-shadow: #d9d9d9;
-			--color-light: #ffffff;
-	}
+    svg {
+        --color-6: #f6f6f6;
+        --color-dark-shadow: #676767;
+        --color-light-shadow: #d9d9d9;
+        --color-light: #ffffff;
+    }
+
     svg {
         position: absolute;
         top: 0;
         left: 0;
         transform-origin: center;
     }
+
     .shadow-l {
         top: 4px;
         left: 2px;
