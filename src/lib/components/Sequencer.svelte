@@ -19,7 +19,7 @@
 
 <section class="flex justify-center items-center ">
 <div class="flex gap-2 w-full">
-	{#each $sequence.steps as step, idx}
+	{#each $sequence.steps as step, idx (idx)}
 		<div class="flex flex-col gap-2 items-center ">
 			{#each notes as note }
 				<button

@@ -11,6 +11,8 @@
 	export let steps: number = 200;
 	export let precision: number = 0;
 
+	export let hidableLabel = true
+
 	$: rotation = scale(value, [min, max], [0, 270], 0);
 
 	let showLabel = false
@@ -74,7 +76,7 @@
 			</svg>
 		</div>
 		<div class="h-8">
-			{#if showLabel}
+			{#if showLabel || !hidableLabel}
 				<div class="pointer-events-none select-none pt-2 text-sm md:text-base">{label}</div>
 			{:else }
 				<Hide on:click={()=> showLabel = true} />

@@ -60,7 +60,7 @@
 								on:click={()=> {$hideLabelStore = !$hideLabelStore}}
 				>{$hideLabelStore? "Hide Labels": "Show Labels"}</button>
 			</div>
-			<Knob bind:value={$volumeStore} min={0} max={1} precision={2} label="Volume" />
+			<Knob bind:value={$volumeStore} min={0} max={1} precision={2} label="Volume"  hidableLabel={false}/>
 		</div>
 		<ISKnobs />
 		<Sequencer sequence={sequenceStore} />
