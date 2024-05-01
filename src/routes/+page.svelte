@@ -15,11 +15,8 @@
 	import Knob from '$lib/components/Knob.svelte';
 	import { sequenceStore } from '$lib/Sequencer';
 	import Sequencer from '$lib/components/Sequencer.svelte';
-	import { tweened } from 'svelte/motion';
-	import { cubicIn } from 'svelte/easing';
 
 	let synth: SynthEngine;
-	const playAnimation = tweened(1, { duration: 150, easing: cubicIn });
 
 
 	async function setup() {
@@ -42,8 +39,6 @@
 	async function startStop() {
 		if (!synth) await setup();
 		$isPlayingStore = !$isPlayingStore;
-		playAnimation.set($isPlayingStore ? 0 : 1);
-
 	}
 </script>
 
@@ -54,8 +49,8 @@
 				<button class="btn variant-filled-primary w-16 aspect-square"
 								on:click={startStop}
 				>
-					<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<path d="M40 {$playAnimation*20} L0 0 L0 40 L40 {40 - $playAnimation*20}" fill="white" />
+					<svg width="40" height="40" viewBox="0 0 40 40" fill="none" class="play" class:pause={$isPlayingStore} xmlns="http://www.w3.org/2000/svg">
+						<path d="M40 20 L0 0 L0 40 L40 20" fill="white" />
 					</svg>
 				</button>
 			</div>
@@ -65,3 +60,15 @@
 		<Sequencer sequence={sequenceStore} />
 	</div>
 </div>
+
+<style>
+	.play path {
+			transition: 0.15s;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+			d: path("M40 20 L0 0 L0 40 L40 20")
+	}
+	.pause path {
+			transition: 0.15s;
+			d: path("M40 0 L0 0 L0 40 L40 40")
+	}
+</style>
