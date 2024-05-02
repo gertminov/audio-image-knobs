@@ -43,38 +43,49 @@
 	}
 </script>
 
-<div class="container h-full mx-auto flex flex-col justify-center items-center">
-	<div class="space-y-8">
-		<div class=" flex justify-between">
-			<div class="grid place-content-center">
-				<button class="btn variant-filled-primary w-16 aspect-square"
-								on:click={startStop}
-				>
-					<svg width="40" height="40" viewBox="0 0 40 40" fill="none" class="play" class:pause={$isPlayingStore} xmlns="http://www.w3.org/2000/svg">
-						<path d="M40 20 L0 0 L0 40 L40 20" fill="white" />
-					</svg>
-				</button>
-			</div>
-			<div class="grid place-content-center">
-				<button class="btn variant-soft-secondary"
-								on:click={()=> {$hideLabelStore = !$hideLabelStore}}
-				>{$hideLabelStore? "Hide Labels": "Show Labels"}</button>
-			</div>
-			<Knob bind:value={$volumeStore} min={0} max={1} precision={2} label="Volume"  hidableLabel={false}/>
-		</div>
-		<ISKnobs />
-		<Sequencer sequence={sequenceStore} />
+<div class="grid grid-cols-1 lg:grid-cols-6">
+	<div class="min-w-36 shrink-0 col-span-1 p-4 flex justify-center lg:justify-start">
+		<a href="https://jacob.heim.software" class="">
+			<span class="text-3xl font-medium border-b-4 border-opacity-0 transition duration-200 border-black hover:border-opacity-100">
+			heimsoft
+		</span></a>
 	</div>
+	<div class="col-span-4 h-full mx-auto px-8 md:pt-2 md:px-12 flex flex-col justify-center items-center">
+		<div class="space-y-8">
+			<div class=" flex justify-between">
+				<div class="grid place-content-center">
+					<button class="btn variant-filled-primary w-16 aspect-square"
+									on:click={startStop}
+					>
+						<svg width="40" height="40" viewBox="0 0 40 40" fill="none" class="play" class:pause={$isPlayingStore}
+								 xmlns="http://www.w3.org/2000/svg">
+							<path d="M40 20 L0 0 L0 40 L40 20" fill="white" />
+						</svg>
+					</button>
+				</div>
+				<div class="grid place-content-center">
+					<button class="btn variant-soft-secondary"
+									on:click={()=> {$hideLabelStore = !$hideLabelStore}}
+					>{$hideLabelStore ? "Hide Labels" : "Show Labels"}</button>
+				</div>
+				<Knob bind:value={$volumeStore} min={0} max={1} precision={2} label="Volume" hidableLabel={false} />
+			</div>
+			<ISKnobs />
+			<Sequencer sequence={sequenceStore} />
+		</div>
+	</div>
+	<div class="min-w-36 shrink-0"></div>
 </div>
 
 <style>
-	.play path {
-			transition: 0.15s;
-      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-			d: path("M40 20 L0 0 L0 40 L40 20")
-	}
-	.pause path {
-			transition: 0.15s;
-			d: path("M40 0 L0 0 L0 40 L40 40")
-	}
+    .play path {
+        transition: 0.15s;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        d: path("M40 20 L0 0 L0 40 L40 20")
+    }
+
+    .pause path {
+        transition: 0.15s;
+        d: path("M40 0 L0 0 L0 40 L40 40")
+    }
 </style>
